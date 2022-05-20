@@ -6,7 +6,6 @@ export default async function handler(
 ) {
   const { location } = req.query;
   if (req.method === 'GET' && location) {
-    let data = null;
     let message = '';
     try {
       const weatherResponse = await fetch(
@@ -18,7 +17,7 @@ export default async function handler(
         ''
       );
 
-      data = {
+      const data = {
         name: temp.location.name,
         region: temp.location.region,
         country: temp.location.country,
@@ -28,20 +27,20 @@ export default async function handler(
         temperature: temp.current.temp_c,
       };
       message = 'Data fetched from WeatherAPI';
+      res.setHeader(
+        'Cache-Control',
+        'public, s-maxage=1200, stale-while-revalidate=600'
+      );
+    
+      return res.status(200).json({
+        data,
+        message,
+      });
     } catch (e: any) {
       return res.status(500).json({ message: e.message });
     }
 
-    res.setHeader(
-      'Cache-Control',
-      'public, s-maxage=1200, stale-while-revalidate=600'
-    );
-
-    return res.status(200).json({
-      data,
-      message,
-    });
   }
-
+  
   return res.status(404);
 }

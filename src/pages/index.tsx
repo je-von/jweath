@@ -33,7 +33,7 @@ const Index = () => {
             <input
               type="search"
               id="default-search"
-              className="block w-full text-ellipsis rounded-lg border border-gray-300 bg-transparent p-4 pl-10 text-sm text-white drop-shadow-lg focus:border-blue-500 focus:ring-blue-500 "
+              className="block w-full text-ellipsis rounded-lg border border-gray-300 bg-transparent p-4 pl-10 text-sm text-white placeholder-white shadow-2xl drop-shadow-2xl focus:border-blue-500 focus:ring-blue-500 "
               placeholder="Search city, coordinates, postal code, anything..."
               required
             />

@@ -5,7 +5,7 @@ import { VscLocation } from 'react-icons/vsc';
 import { Parallax } from 'react-scroll-parallax';
 import Typical from 'react-typical';
 import useSWR from 'swr';
-
+import Clock from 'react-live-clock';
 import { fetcher } from '@/lib/fetcher';
 
 type IMainProps = {
@@ -53,13 +53,13 @@ const Main = (props: IMainProps) => {
               wrapper="p"
             />
           </div>
-          <Parallax speed={-5}>
-            <div className="w-[80vw] rounded-lg border px-5 py-2 drop-shadow-lg md:w-[18rem]">
+          <Parallax speed={-2}>
+            <div className="w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem] mb-7">
               {weather && weather.data ? (
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-around">
                   <Image
                     className="hover:scale-125"
-                    src={'/assets/weather/day/356.png'}
+                    src={`/assets/weather/${weather?.data?.icon}`}
                     width={55}
                     height={55}
                     alt={'weather icon'}
@@ -80,6 +80,9 @@ const Main = (props: IMainProps) => {
               )}
             </div>
           </Parallax>
+        <Parallax speed={-5}>
+          <Clock format={'HH:mm:ss'} ticking={true} className='text-white drop-shadow-lg '/>
+        </Parallax>
         </div>
         <div className="relative z-50 mx-auto max-w-screen-md">
           {props.children}
