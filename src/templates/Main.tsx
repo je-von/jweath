@@ -2,10 +2,11 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { VscLocation } from 'react-icons/vsc';
+import Clock from 'react-live-clock';
 import { Parallax } from 'react-scroll-parallax';
 import Typical from 'react-typical';
 import useSWR from 'swr';
-import Clock from 'react-live-clock';
+
 import { fetcher } from '@/lib/fetcher';
 
 type IMainProps = {
@@ -23,9 +24,13 @@ const Main = (props: IMainProps) => {
   }, []);
 
   const { data: weather, isValidating } = useSWR<any>(
-    `/api/weather?location=${location}`,
+    `/api/weather?location=${location}&top=true`,
     fetcher
   );
+
+  if (isValidating && !weather) {
+    return null;
+  }
 
   return (
     <div className="w-full text-gray-700 antialiased">
@@ -54,7 +59,7 @@ const Main = (props: IMainProps) => {
             />
           </div>
           <Parallax speed={-2}>
-            <div className="w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem] mb-7">
+            <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem]">
               {weather && weather.data ? (
                 <div className="flex items-center justify-around">
                   <Image
@@ -80,9 +85,13 @@ const Main = (props: IMainProps) => {
               )}
             </div>
           </Parallax>
-        <Parallax speed={-5}>
-          <Clock format={'HH:mm:ss'} ticking={true} className='text-white drop-shadow-lg '/>
-        </Parallax>
+          <Parallax speed={-5}>
+            <Clock
+              format={'HH:mm:ss'}
+              ticking={true}
+              className="text-white drop-shadow-lg "
+            />
+          </Parallax>
         </div>
         <div className="relative z-50 mx-auto max-w-screen-md">
           {props.children}

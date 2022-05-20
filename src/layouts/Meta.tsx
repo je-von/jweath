@@ -22,11 +22,7 @@ const Meta = (props: IMetaProps) => {
           content="width=device-width,initial-scale=1"
           key="viewport"
         />
-        <link
-          type="image/png"
-          rel="icon"
-          href={`/icon.png`}
-        />
+        <link type="image/png" rel="icon" href={`/icon.png`} />
       </Head>
       <NextSeo
         title={props.title}
