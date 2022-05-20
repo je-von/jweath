@@ -22,20 +22,20 @@ const Main = (props: IMainProps) => (
             jweath
           </h1>
         </Parallax>
-        <div className="my-6 w-[80vw] bg-black px-2 sm:w-[24vw]">
+        <div className="my-6 w-[80vw] bg-black bg-opacity-70 px-2 text-center sm:w-[34rem]">
           <Typical
             steps={[
-              'get updated weather realtime..',
+              'get updated weather realtime⏳',
+              3000,
+              'get updated weather from places around the world🌏',
               2000,
-              'scroll to view places near you..',
-              1000,
             ]}
             loop={Infinity}
             wrapper="p"
           />
         </div>
         <Parallax speed={-5}>
-          <div className="w-[80vw] rounded-lg border px-5 py-2 drop-shadow-lg sm:w-[23vw]">
+          <div className="w-[80vw] rounded-lg border px-5 py-2 drop-shadow-lg md:w-[23vw]">
             <div className="flex items-center justify-between">
               <Image
                 className="hover:scale-125"
@@ -51,6 +51,10 @@ const Main = (props: IMainProps) => (
                 </p>
               </div>
             </div>
+            {/* <div className="flex items-center justify-between text-white">
+              <VscLocation className="mr-2 w-1/5 text-4xl" />
+              Allow location access to gain best experience!
+            </div> */}
           </div>
         </Parallax>
       </div>
