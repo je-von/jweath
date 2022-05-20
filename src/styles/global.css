@@ -4,9 +4,9 @@ a {
   @apply text-blue-700;
 }
 
-a:hover {
+/* a:hover {
   @apply border-b-2 border-blue-700;
-}
+} */
 
 @tailwind components;
 
@@ -18,4 +18,40 @@ a:hover {
 
 .content ul {
   @apply my-6;
+}
+
+
+* {
+  scroll-behavior: smooth;
+  @apply font-jetbrains text-white
+}
+
+html,
+body {
+  /* min-height: 101vh; */
+  padding: 0;
+  margin: 0;
+  @apply bg-slate-900;
+  line-height: 1.5rem;
+}
+
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
+}
+
+h1 {
+  @apply text-2xl;
+}
+
+h2 {
+  @apply text-lg;
+}
+
+h3 {
+  @apply text-base;
 }

@@ -1,6 +1,12 @@
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      yeseva: ['Yeseva One', 'serif'],
+      mont: ['Montserrat', 'sans-serif'],
+      ubuntu: ['Ubuntu', 'sans-serif'],
+      jetbrains: ['JetBrains Mono'],
+    },
     fontSize: {
       xs: '0.75rem',
       sm: '0.875rem',
@@ -14,6 +20,25 @@ module.exports = {
       '6xl': '4rem',
     },
     extend: {
+      animation: {
+        blob: 'blob 7s infinite',
+      },
+      keyframes: {
+        blob: {
+          '0%': {
+            transform: 'translate(0px, 0px) scale(1)',
+          },
+          '33%': {
+            transform: 'translate(30px, -50px) scale(1.1)',
+          },
+          // '66%': {
+          //   transform: 'translate(-20px, 20px) scale(0.9)',
+          // },
+          '100%': {
+            transform: 'tranlate(0px, 0px) scale(1)',
+          },
+        },
+      },
       colors: {
         gray: {
           100: '#f7fafc',
