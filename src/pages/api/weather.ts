@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 function convert(temp) {

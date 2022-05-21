@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -20,7 +21,7 @@ const WeatherDetail = () => {
     <div className="relative z-50">
       <div className="mx-auto flex w-full max-w-[800px] items-center justify-between">
         <Link href={'/#search'} passHref>
-          <FaAngleLeft className="mt-16 cursor-pointer text-2xl text-white drop-shadow-xl" />
+          <FaAngleLeft className="ml-4 mt-16 cursor-pointer text-2xl text-white drop-shadow-xl" />
         </Link>
       </div>
       {child}
@@ -31,31 +32,33 @@ const WeatherDetail = () => {
 
   return content(
     <div className="h-screen drop-shadow-2xl">
-      <div className="mx-auto my-10 flex w-full max-w-[800px] items-center justify-between">
-        <div className="w-3/4">
-          <Parallax speed={2} className="w-full">
-            <h1 className="text-white">{weather?.data?.name}</h1>
-          </Parallax>
-          <Parallax speed={-1}>
-            <p className="text-lg text-gray-400">{weather?.data?.country}</p>
+      <div className="mx-auto my-10 flex w-full  max-w-[800px] flex-col items-center justify-between px-5">
+        <div className="flex w-full items-center justify-between ">
+          <div className="w-3/4">
+            <Parallax speed={2} className="w-full">
+              <h1 className="text-white">{weather?.data?.name}</h1>
+            </Parallax>
+            <Parallax speed={-1}>
+              <p className="text-lg text-gray-400">{weather?.data?.country}</p>
+            </Parallax>
+          </div>
+          <Parallax speed={1}>
+            <Image
+              src={`/assets/weather/${weather?.data?.icon}`}
+              width={80}
+              height={80}
+              alt={'weather icon'}
+            />
           </Parallax>
         </div>
-        <Parallax speed={1}>
-          <Image
-            src={`/assets/weather/${weather?.data?.icon}`}
-            width={80}
-            height={80}
-            alt={'weather icon'}
-          />
+        <Parallax speed={-2}>
+          <p className="text-justify text-lg leading-5 text-white">
+            It&apos;s <i>{weather?.data?.condition}</i> and feels like{' '}
+            <b>{weather?.data?.feelslike}&#176;C</b>. It&apos;s actually{' '}
+            <b>{weather?.data?.temperature}&#176;C</b>.
+          </p>
         </Parallax>
       </div>
-      <Parallax speed={-2} className="mx-auto my-10 flex w-full max-w-[800px]">
-        <p className="text-justify text-lg leading-5 text-white">
-          It&apos;s <i>{weather?.data?.condition}</i> and feels like{' '}
-          <b>{weather?.data?.feelslike}&#176;C</b>. It&apos;s actually{' '}
-          <b>{weather?.data?.temperature}&#176;C</b>.
-        </p>
-      </Parallax>
 
       <div
         id="weather-day-container"
