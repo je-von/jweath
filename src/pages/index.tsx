@@ -124,43 +124,52 @@ const Index = () => {
   return content(
     weathers?.data?.slice(0, limit).map((w, index) => (
       <Parallax speed={2} key={index}>
-        <div className="hover:shadow-off my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:scale-105 hover:ring-2 hover:ring-yellow-400 md:w-[21rem]">
-          <div className="flex h-full w-full flex-col items-center justify-center text-black">
-            <div className="flex w-full items-center justify-between">
-              <div className="w-3/4">
-                <h2 className="text-black">{w.name}</h2>
-                <p className="my-1 text-gray-700">{w.country}</p>
+        <div className="relative cursor-pointer hover:scale-105">
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+              console.log('msk');
+            }}
+            className="hover:shadow-off relative my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:ring-2 hover:ring-yellow-400 md:w-[21rem]"
+          >
+            <div className="flex h-full w-full flex-col items-center justify-center text-black">
+              <div className="flex w-full items-center justify-between">
+                <div className="w-3/4">
+                  <h2 className="text-black">{w.name}</h2>
+                  <p className="my-1 text-gray-700">{w.country}</p>
+                </div>
+                <Image
+                  src={`/assets/weather/${w.icon}`}
+                  width={50}
+                  height={50}
+                  alt={'weather icon'}
+                />
               </div>
-              <Image
-                src={`/assets/weather/${w.icon}`}
-                width={50}
-                height={50}
-                alt={'weather icon'}
-              />
+              <p className="text-justify leading-5 text-black">
+                It&apos;s <i>{w.condition}</i> and feels like{' '}
+                <b>{w.feelslike}&#176;C</b>. It&apos;s actually{' '}
+                <b>{w.temperature}&#176;C</b>.
+              </p>
+              {/* <div className="bottom-0 mt-auto flex w-full flex-row-reverse">
+              
+            </div> */}
             </div>
-            <p className="text-justify leading-5 text-black">
-              It&apos;s <i>{w.condition}</i> and feels like{' '}
-              <b>{w.feelslike}&#176;C</b>. It&apos;s actually{' '}
-              <b>{w.temperature}&#176;C</b>.
-            </p>
-            <div className="bottom-0 mt-auto flex w-full flex-row-reverse">
-              <div
-                className="cursor-pointer text-gray-700 hover:scale-125"
-                onClick={() => {
-                  if (favorites.includes(w.url as never)) {
-                    setFavorites(favorites.filter((f) => f !== w.url));
-                  } else {
-                    setFavorites((prev) => prev.concat(w.url));
-                  }
-                }}
-              >
-                {favorites.includes(w.url as never) ? (
-                  <AiFillStar className="text-yellow-400" />
-                ) : (
-                  <AiOutlineStar />
-                )}
-              </div>
-            </div>
+          </div>
+          <div
+            className="absolute right-8 bottom-3 cursor-pointer text-gray-700 hover:scale-125"
+            onClick={() => {
+              if (favorites.includes(w.url as never)) {
+                setFavorites(favorites.filter((f) => f !== w.url));
+              } else {
+                setFavorites((prev) => prev.concat(w.url));
+              }
+            }}
+          >
+            {favorites.includes(w.url as never) ? (
+              <AiFillStar className="text-yellow-400" />
+            ) : (
+              <AiOutlineStar />
+            )}
           </div>
         </div>
       </Parallax>
