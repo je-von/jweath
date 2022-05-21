@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaAngleLeft } from 'react-icons/fa';
+import { Circles } from 'react-loader-spinner';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -28,7 +29,12 @@ const WeatherDetail = () => {
     </div>
   );
 
-  if (isValidating && !weather) return content(null);
+  if (isValidating && !weather)
+    return content(
+      <div className="mt-10 flex h-[80vh] w-full items-center justify-center">
+        <Circles color="#f6ca00" height={100} width={110} />
+      </div>
+    );
 
   return content(
     <div className="h-screen drop-shadow-2xl">

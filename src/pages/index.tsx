@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
+import { Circles } from 'react-loader-spinner';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -114,7 +115,17 @@ const Index = () => {
     </>
   );
   if (isValidating && !weathers) {
-    return content(null);
+    return content(
+      <div className="flex w-full items-center justify-center">
+        <Parallax
+          className="w-full opacity-90 drop-shadow-xl"
+          speed={3}
+          scale={[0.7, 1]}
+        >
+          <Circles color="#f6ca00" height={100} width={110} />
+        </Parallax>
+      </div>
+    );
   }
   return content(
     weathers?.data?.slice(0, limit).map((w, index) => (
