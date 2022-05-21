@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
-import { AiOutlineSearch } from 'react-icons/ai';
+import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -9,6 +9,8 @@ import { fetcher } from '@/lib/fetcher';
 import { Main } from '@/templates/Main';
 
 const Index = () => {
+  const [favorites, setFavorites] = useState([]);
+  const [minHeight, setMinHeight] = useState('');
   const [limit, setLimit] = useState(0);
   const searchResultRef = useRef<HTMLDivElement>(null);
   const [location, setLocation] = useState('Indonesia');
@@ -38,6 +40,14 @@ const Index = () => {
 
     observer.observe(searchResultRef.current);
   }, []);
+  useEffect(() => {
+    if (favorites.length < 1) {
+      const temp = localStorage.getItem('favorites-location-jweath');
+      if (temp) setFavorites(temp.split(',') as any);
+    } else {
+      localStorage.setItem('favorites-location-jweath', favorites.toString());
+    }
+  }, [favorites]);
 
   const content = (child) => (
     <Main
@@ -48,7 +58,7 @@ const Index = () => {
         />
       }
     >
-      <div className="px-5 pt-64 pb-12">
+      <div className={`px-5 pt-64 pb-12 ${minHeight}`}>
         <Parallax speed={5}>
           <form>
             <label
@@ -75,6 +85,9 @@ const Index = () => {
                     setResetSearch(true);
                   }
                 }}
+                onFocus={() => {
+                  setMinHeight('min-h-[120vh]');
+                }}
               />
             </div>
           </form>
@@ -92,14 +105,14 @@ const Index = () => {
   return content(
     weathers?.data?.slice(0, limit).map((w, index) => (
       <Parallax speed={2} key={index}>
-        <div className="m-2 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-2 shadow-lg drop-shadow-xl md:w-[21rem]">
+        <div className="hover:shadow-off my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:scale-105 hover:ring-2 hover:ring-yellow-400 md:w-[21rem]">
           <div className="flex h-full w-full flex-col items-center justify-center text-black">
             <div className="flex w-full items-center justify-between">
               <div className="w-3/4">
                 <h2 className="text-black">{w.name}</h2>
                 <p className="my-1 text-gray-700">{w.country}</p>
               </div>
-              <Parallax speed={-2}>
+              <Parallax speed={-1}>
                 <Image
                   src={`/assets/weather/${w.icon}`}
                   width={50}
@@ -113,6 +126,24 @@ const Index = () => {
               <b>{w.feelslike}&#176;C</b>. It&apos;s actually{' '}
               <b>{w.temperature}&#176;C</b>.
             </p>
+            <div className="bottom-0 mt-auto flex w-full flex-row-reverse">
+              <div
+                className="cursor-pointer text-gray-700 hover:scale-125"
+                onClick={() => {
+                  if (favorites.includes(w.url as never)) {
+                    setFavorites(favorites.filter((f) => f !== w.url));
+                  } else {
+                    setFavorites((prev) => prev.concat(w.url));
+                  }
+                }}
+              >
+                {favorites.includes(w.url as never) ? (
+                  <AiFillStar className="text-yellow-400" />
+                ) : (
+                  <AiOutlineStar />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </Parallax>

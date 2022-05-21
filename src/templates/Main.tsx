@@ -60,7 +60,7 @@ const Main = (props: IMainProps) => {
             />
           </Parallax> */}
         </div>
-        <div className="relative z-50 mx-auto max-w-screen-md">
+        <div className="relative z-50 mx-auto max-w-[800px]">
           {props.children}
         </div>
       </div>

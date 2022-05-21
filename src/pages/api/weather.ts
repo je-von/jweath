@@ -62,7 +62,10 @@ export default async function handler(
         const data: any[] = [];
         for (const t of temp) {
           const weather = await getTopWeather(t.url);
-          if (weather) data.push(weather);
+          if (weather) {
+            weather.url = t.url;
+            data.push(weather);
+          }
         }
 
         if (data) {
