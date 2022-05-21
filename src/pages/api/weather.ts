@@ -35,35 +35,69 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { location, top } = req.query;
-  if (req.method === 'GET' && location) {
-    let response = {};
-    if (top) {
-      const data = await getTopWeather(location);
-      if (data) {
-        const message = 'Data fetched from WeatherAPI';
-        res.setHeader(
-          'Cache-Control',
-          'public, s-maxage=1200, stale-while-revalidate=600'
-        );
+  const { location, top, multi } = req.query;
+  if (req.method === 'GET') {
+    if (location) {
+      let response = {};
+      if (top) {
+        const data = await getTopWeather(location);
+        if (data) {
+          const message = 'Data fetched from WeatherAPI';
+          res.setHeader(
+            'Cache-Control',
+            'public, s-maxage=1200, stale-while-revalidate=600'
+          );
 
-        response = {
-          data,
-          message,
-        };
+          response = {
+            data,
+            message,
+          };
+        }
+      } else {
+        try {
+          const weatherResponse = await fetch(
+            `https://api.weatherapi.com/v1/search.json?key=${process.env.WEATHER_API_KEY}&q=${location}`
+          );
+          const temp = await weatherResponse.json();
+
+          const data: any[] = [];
+          for (const t of temp) {
+            const weather = await getTopWeather(t.url);
+            if (weather) {
+              weather.url = t.url;
+              data.push(weather);
+            }
+          }
+
+          if (data) {
+            const message = 'Data fetched from WeatherAPI';
+            res.setHeader(
+              'Cache-Control',
+              'public, s-maxage=1200, stale-while-revalidate=600'
+            );
+            response = {
+              data,
+              message,
+            };
+          }
+        } catch (e: any) {
+          return res.status(500).json({ message: e.message });
+        }
       }
-    } else {
-      try {
-        const weatherResponse = await fetch(
-          `https://api.weatherapi.com/v1/search.json?key=${process.env.WEATHER_API_KEY}&q=${location}`
-        );
-        const temp = await weatherResponse.json();
+      if (response) return res.status(200).json(response);
+      return res.status(500);
+    }
+    if (multi) {
+      const favorites = (multi as string).split(',');
+      // return res.status(200).json({ data: favorites[0] });
 
+      try {
         const data: any[] = [];
-        for (const t of temp) {
-          const weather = await getTopWeather(t.url);
+
+        for (const f of favorites) {
+          const weather = await getTopWeather(f);
           if (weather) {
-            weather.url = t.url;
+            weather.url = f;
             data.push(weather);
           }
         }
@@ -74,17 +108,16 @@ export default async function handler(
             'Cache-Control',
             'public, s-maxage=1200, stale-while-revalidate=600'
           );
-          response = {
+          const response = {
             data,
             message,
           };
+          return res.status(200).json(response);
         }
       } catch (e: any) {
         return res.status(500).json({ message: e.message });
       }
     }
-    if (response) return res.status(200).json(response);
-    return res.status(500);
   }
 
   return res.status(404);

@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
+import { BsInfoCircle } from 'react-icons/bs';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -33,7 +34,6 @@ const Index = () => {
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry?.isIntersecting) {
-        console.log(limit);
         setLimit((prev) => prev + 2);
       }
     });
@@ -60,13 +60,7 @@ const Index = () => {
     >
       <div className={`px-5 pt-64 pb-12 ${minHeight}`}>
         <Parallax speed={5}>
-          <form>
-            <label
-              htmlFor="default-search"
-              className="sr-only mb-2 text-sm font-medium text-gray-300"
-            >
-              Search
-            </label>
+          <div>
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
                 <AiOutlineSearch />
@@ -75,12 +69,16 @@ const Index = () => {
                 type="search"
                 id="default-search"
                 className="block w-full text-ellipsis rounded-lg border border-gray-300 bg-transparent p-4 pl-10 text-sm text-white shadow-2xl drop-shadow-2xl placeholder:text-white focus:border-blue-500 focus:ring-blue-500 "
-                placeholder="Search city, coordinates, postal code, anything..."
+                placeholder="search city, coordinates, postal code, or anything..."
                 onChange={(e) => {
                   e.preventDefault();
                   const search = e.target.value;
                   if (search) {
-                    setLocation(e.target.value);
+                    if (search.startsWith('*')) {
+                      setLocation(`&multi=${favorites.toString()}`);
+                    } else {
+                      setLocation(e.target.value);
+                    }
                   } else {
                     setResetSearch(true);
                   }
@@ -90,7 +88,28 @@ const Index = () => {
                 }}
               />
             </div>
-          </form>
+          </div>
+        </Parallax>
+        <Parallax speed={3}>
+          <div className="mt-2 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
+            <BsInfoCircle className="mr-2 text-[1rem]" />
+            <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
+              tips: type
+              <p
+                className="mx-2 cursor-pointer hover:scale-[1.15]"
+                onClick={() => {
+                  const searchBar = document.getElementById(
+                    'default-search'
+                  ) as HTMLInputElement;
+                  if (searchBar) searchBar.value = '*';
+                  setLocation(`&multi=${favorites.toString()}`);
+                }}
+              >
+                &apos;*&apos;
+              </p>
+              to show your starred cities
+            </div>
+          </div>
         </Parallax>
         <div className="mt-5 flex flex-wrap items-center justify-center ">
           {child}
@@ -112,14 +131,12 @@ const Index = () => {
                 <h2 className="text-black">{w.name}</h2>
                 <p className="my-1 text-gray-700">{w.country}</p>
               </div>
-              <Parallax speed={-1}>
-                <Image
-                  src={`/assets/weather/${w.icon}`}
-                  width={50}
-                  height={50}
-                  alt={'weather icon'}
-                />
-              </Parallax>
+              <Image
+                src={`/assets/weather/${w.icon}`}
+                width={50}
+                height={50}
+                alt={'weather icon'}
+              />
             </div>
             <p className="text-justify leading-5 text-black">
               It&apos;s <i>{w.condition}</i> and feels like{' '}
