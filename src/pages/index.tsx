@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
@@ -7,9 +8,7 @@ import useSWR from 'swr';
 
 import { Footer } from '@/layouts/Footer';
 import { Header } from '@/layouts/Header';
-import { Meta } from '@/layouts/Meta';
 import { fetcher } from '@/lib/fetcher';
-import { Main } from '@/templates/Main';
 
 const Index = () => {
   const [favorites, setFavorites] = useState([]);
@@ -51,21 +50,14 @@ const Index = () => {
   }, [favorites]);
 
   const content = (child) => (
-    <Main
-      meta={
-        <Meta
-          title="jweath | Weather App by Jevon"
-          description="A web application to get updated weather from all places in the world."
-        />
-      }
-    >
+    <>
       <Header />
       <div className="relative z-50 mx-auto max-w-[800px]">
         <div
           id="search"
-          className={`px-5 pt-64 pb-12 min-h-[120vh] flex flex-col items-center justify-center w-full`}
+          className={`px-5 pt-64 pb-12 min-h-[100vh] flex flex-col items-center justify-center w-full`}
         >
-          <Parallax speed={6} className="w-full">
+          <Parallax speed={5} className="w-full">
             <div className="w-full">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
@@ -93,8 +85,8 @@ const Index = () => {
               </div>
             </div>
           </Parallax>
-          <Parallax className="w-full" speed={4}>
-            <div className="mt-2 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
+          <Parallax className="w-full" speed={3}>
+            <div className="mt-3 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
               <BsInfoCircle className="mr-2 text-[1rem]" />
               <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
                 tips: type
@@ -110,19 +102,19 @@ const Index = () => {
                 >
                   &apos;*&apos;
                 </p>
-                to show your starred cities
+                to see your starred cities
               </div>
             </div>
           </Parallax>
           <div className="mt-5 flex flex-wrap items-center justify-center ">
             {child}
           </div>
-          <div ref={searchResultRef}></div>
+          <div ref={searchResultRef} className="h-[20vh]"></div>
         </div>
       </div>
 
       <Footer />
-    </Main>
+    </>
   );
   if (isValidating && !weathers) {
     return content(null);
@@ -130,39 +122,35 @@ const Index = () => {
   return content(
     weathers?.data?.slice(0, limit).map((w, index) => (
       <Parallax speed={2} key={index}>
-        <div className="relative cursor-pointer hover:scale-105">
-          <div
-            onClick={(e) => {
-              e.preventDefault();
-              console.log('msk');
-            }}
-            className="hover:shadow-off relative my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:ring-2 hover:ring-yellow-400 md:w-[21rem]"
-          >
-            <div className="flex h-full w-full flex-col items-center justify-center text-black">
-              <div className="flex w-full items-center justify-between">
-                <div className="w-3/4">
-                  <h2 className="text-black">{w.name}</h2>
-                  <p className="my-1 text-gray-700">{w.country}</p>
+        <div className="relative cursor-pointer transition-all duration-150 hover:scale-105">
+          <Link href={`/weather/${w.url}`} passHref>
+            <div className="hover:shadow-off relative my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:ring-2 hover:ring-yellow-400 md:w-[21rem]">
+              <div className="flex h-full w-full flex-col items-center justify-center text-black">
+                <div className="flex w-full items-center justify-between">
+                  <div className="w-3/4">
+                    <h2 className="text-black">{w.name}</h2>
+                    <p className="my-1 text-gray-700">{w.country}</p>
+                  </div>
+                  <Image
+                    src={`/assets/weather/${w.icon}`}
+                    width={50}
+                    height={50}
+                    alt={'weather icon'}
+                  />
                 </div>
-                <Image
-                  src={`/assets/weather/${w.icon}`}
-                  width={50}
-                  height={50}
-                  alt={'weather icon'}
-                />
-              </div>
-              <p className="text-justify leading-5 text-black">
-                It&apos;s <i>{w.condition}</i> and feels like{' '}
-                <b>{w.feelslike}&#176;C</b>. It&apos;s actually{' '}
-                <b>{w.temperature}&#176;C</b>.
-              </p>
-              {/* <div className="bottom-0 mt-auto flex w-full flex-row-reverse">
+                <p className="text-justify leading-5 text-black">
+                  It&apos;s <i>{w.condition}</i> and feels like{' '}
+                  <b>{w.feelslike}&#176;C</b>. It&apos;s actually{' '}
+                  <b>{w.temperature}&#176;C</b>.
+                </p>
+                {/* <div className="bottom-0 mt-auto flex w-full flex-row-reverse">
               
             </div> */}
+              </div>
             </div>
-          </div>
+          </Link>
           <div
-            className="absolute right-8 bottom-3 cursor-pointer text-gray-700 hover:scale-125"
+            className="absolute right-8 bottom-3 animate-customDown cursor-pointer text-gray-700 transition-all duration-150 hover:scale-125"
             onClick={() => {
               if (favorites.includes(w.url as never)) {
                 setFavorites(favorites.filter((f) => f !== w.url));

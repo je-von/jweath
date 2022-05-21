@@ -15,7 +15,16 @@ function convert(temp) {
     icon,
     condition: temp.current.condition.text,
     feelslike: temp.current.feelslike_c,
+    feelslike_f: temp.current.feelslike_f,
     temperature: temp.current.temp_c,
+    temperature_f: temp.current.temp_f,
+    wind: {
+      kph: temp.current.wind_kph,
+      degree: temp.current.wind_kph,
+      dir: temp.current.wind_dir,
+    },
+    humidity: temp.current.humidity,
+    cloud: temp.current.cloud,
   };
 }
 

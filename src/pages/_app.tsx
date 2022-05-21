@@ -19,9 +19,21 @@ import '@fontsource/jetbrains-mono/700.css';
 import type { AppProps } from 'next/app';
 import { ParallaxProvider } from 'react-scroll-parallax';
 
+import { Meta } from '@/layouts/Meta';
+import { Main } from '@/templates/Main';
+
 const MyApp = ({ Component, pageProps }: AppProps) => (
   <ParallaxProvider>
-    <Component {...pageProps} />
+    <Main
+      meta={
+        <Meta
+          title="jweath | Weather App by Jevon"
+          description="A web application to get updated weather from all places in the world."
+        />
+      }
+    >
+      <Component {...pageProps} />
+    </Main>
   </ParallaxProvider>
 );
 
