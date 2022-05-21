@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { VscLocation } from 'react-icons/vsc';
-import Clock from 'react-live-clock';
 import { Parallax } from 'react-scroll-parallax';
 import Typical from 'react-typical';
 import useSWR from 'swr';
@@ -40,11 +39,11 @@ const Header = () => {
         </div>
       </Parallax>
       <Parallax speed={-5}>
-        <Clock
+        {/* <Clock
           format={'HH:mm:ss'}
           ticking={true}
           className="text-white drop-shadow-lg "
-        />
+        /> */}
         {/* <p>start searching</p> */}
       </Parallax>
     </div>

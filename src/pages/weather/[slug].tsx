@@ -51,11 +51,21 @@ const WeatherDetail = () => {
             />
           </Parallax>
         </div>
-        <Parallax speed={-2}>
-          <p className="text-justify text-lg leading-5 text-white">
+        <Parallax speed={-3} className="w-full text-center">
+          <p className="text-lg text-gray-400">
+            {new Date(weather?.data?.date).toLocaleDateString('en-us', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </p>
+          <p className="w-full text-center text-lg leading-5 text-white">
             It&apos;s <i>{weather?.data?.condition}</i> and feels like{' '}
             <b>{weather?.data?.feelslike}&#176;C</b>. It&apos;s actually{' '}
-            <b>{weather?.data?.temperature}&#176;C</b>.
+            <b>{weather?.data?.temperature}&#176;C</b> right now. Today&apos;s
+            average temperature will be around{' '}
+            <b>{weather?.data?.avgtemp_c}&#176;C</b> with{' '}
+            <i>{weather?.data?.chance_of_rain}%</i> chance of rain.
           </p>
         </Parallax>
       </div>
@@ -95,7 +105,7 @@ const WeatherDetail = () => {
                         </p>
                       ) : h.chance_of_rain < 40 ? (
                         <p>
-                          There are only <i>{h.chance_of_rain}%</i> chance of
+                          There are <i>{h.chance_of_rain}%</i> chance of
                           raining. It&apos;s good to go out 😎
                         </p>
                       ) : (
