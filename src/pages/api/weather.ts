@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -75,7 +76,7 @@ export default async function handler(
           for (const t of temp) {
             const weather = await getTopWeather(t.url);
             if (weather) {
-              weather.url = t.url;
+              weather['url'] = t.url;
               data.push(weather);
             }
           }
@@ -108,7 +109,7 @@ export default async function handler(
         for (const f of favorites) {
           const weather = await getTopWeather(f);
           if (weather) {
-            weather.url = f;
+            weather['url'] = f;
             data.push(weather);
           }
         }
