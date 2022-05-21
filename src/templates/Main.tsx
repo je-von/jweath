@@ -28,11 +28,7 @@ const Main = (props: IMainProps) => {
     fetcher
   );
 
-  if (isValidating && !weather) {
-    return null;
-  }
-
-  return (
+  const content = (child) => (
     <div className="w-full text-gray-700 antialiased">
       {props.meta}
       <div className="relative h-screen w-full">
@@ -67,36 +63,11 @@ const Main = (props: IMainProps) => {
                 2000,
               ]}
               loop={Infinity}
-              wrapper="p"
             />
           </div>
           <Parallax speed={-2}>
             <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem]">
-              {weather && weather.data ? (
-                <div className="flex items-center justify-around">
-                  <Image
-                    className="hover:scale-125"
-                    src={`/assets/weather/${weather?.data?.icon}`}
-                    width={55}
-                    height={55}
-                    alt={'weather icon'}
-                  />
-                  <div className="ml-2 flex w-3/4 flex-col text-white">
-                    <p className="text-white">Look outside! </p>
-                    <p className="whitespace-normal text-white sm:whitespace-nowrap">
-                      It&apos;s {weather?.data?.temperature}&#176;C and{' '}
-                      <i className="whitespace-pre-wrap">
-                        {weather?.data?.condition}
-                      </i>
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between text-white">
-                  <VscLocation className="mr-2 w-1/5 text-4xl" />
-                  Allow location access for best experience!
-                </div>
-              )}
+              {child}
             </div>
           </Parallax>
           <Parallax speed={-5}>
@@ -112,6 +83,41 @@ const Main = (props: IMainProps) => {
         </div>
       </div>
     </div>
+  );
+
+  if (isValidating && !weather && location) {
+    return content(
+      <div className="flex items-center justify-between text-white">
+        <VscLocation className="mr-2 w-1/5 text-4xl" />
+        Loading...
+      </div>
+    );
+  }
+
+  return content(
+    weather && weather.data ? (
+      <div className="flex items-center justify-around">
+        <Image
+          className="hover:scale-125"
+          src={`/assets/weather/${weather?.data?.icon}`}
+          width={55}
+          height={55}
+          alt={'weather icon'}
+        />
+        <div className="ml-2 flex w-3/4 flex-col text-white">
+          <p className="text-white">Look outside! </p>
+          <p className="whitespace-normal text-white sm:whitespace-nowrap">
+            It&apos;s {weather?.data?.temperature}&#176;C and{' '}
+            <i className="whitespace-pre-wrap">{weather?.data?.condition}</i>
+          </p>
+        </div>
+      </div>
+    ) : (
+      <div className="flex items-center justify-between text-white">
+        <VscLocation className="mr-2 w-1/5 text-4xl" />
+        Allow location access for best experience!
+      </div>
+    )
   );
 };
 

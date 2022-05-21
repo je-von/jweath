@@ -6,8 +6,11 @@ function convert(temp) {
     ''
   );
   return {
-    name: temp.location.name,
-    region: temp.location.region,
+    name:
+      temp.location.name +
+      (!temp.location.region.includes('(general)')
+        ? `, ${temp.location.region}`
+        : ''),
     country: temp.location.country,
     icon,
     condition: temp.current.condition.text,
@@ -49,19 +52,19 @@ export default async function handler(
           message,
         };
       }
-    }else{
+    } else {
       try {
         const weatherResponse = await fetch(
           `https://api.weatherapi.com/v1/search.json?key=${process.env.WEATHER_API_KEY}&q=${location}`
         );
         const temp = await weatherResponse.json();
-  
+
         const data: any[] = [];
         for (const t of temp) {
           const weather = await getTopWeather(t.url);
           if (weather) data.push(weather);
         }
-  
+
         if (data) {
           const message = 'Data fetched from WeatherAPI';
           res.setHeader(
@@ -76,7 +79,6 @@ export default async function handler(
       } catch (e: any) {
         return res.status(500).json({ message: e.message });
       }
-      
     }
     if (response) return res.status(200).json(response);
     return res.status(500);
