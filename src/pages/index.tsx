@@ -6,7 +6,6 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
-import { Footer } from '@/layouts/Footer';
 import { Header } from '@/layouts/Header';
 import { fetcher } from '@/lib/fetcher';
 
@@ -112,8 +111,6 @@ const Index = () => {
           <div ref={searchResultRef} className="h-[20vh]"></div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
   if (isValidating && !weathers) {
