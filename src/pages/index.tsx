@@ -5,6 +5,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
+import { Header } from '@/layouts/Header';
 import { Meta } from '@/layouts/Meta';
 import { fetcher } from '@/lib/fetcher';
 import { Main } from '@/templates/Main';
@@ -38,7 +39,6 @@ const Index = () => {
     });
 
     observer.observe(searchResultRef.current);
-    // observer.observe()
   }, []);
   useEffect(() => {
     if (favorites.length < 1) {
@@ -58,63 +58,66 @@ const Index = () => {
         />
       }
     >
-      <div
-        id="search"
-        className={`px-5 pt-64 pb-12 min-h-[120vh] flex flex-col items-center justify-center w-full`}
-      >
-        <Parallax speed={6} className="w-full">
-          <div className="w-full">
-            <div className="relative">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
-                <AiOutlineSearch />
-              </div>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full text-ellipsis rounded-lg border border-gray-300 bg-transparent p-4 pl-10 text-sm text-white shadow-2xl drop-shadow-2xl placeholder:text-white focus:border-blue-500 focus:ring-blue-500 "
-                placeholder="search city, coordinates, postal code, or anything..."
-                onChange={(e) => {
-                  e.preventDefault();
-                  const search = e.target.value;
-                  if (search) {
-                    if (search.startsWith('*')) {
-                      setLocation(`&multi=${favorites.toString()}`);
+      <Header />
+      <div className="relative z-50 mx-auto max-w-[800px]">
+        <div
+          id="search"
+          className={`px-5 pt-64 pb-12 min-h-[120vh] flex flex-col items-center justify-center w-full`}
+        >
+          <Parallax speed={6} className="w-full">
+            <div className="w-full">
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
+                  <AiOutlineSearch />
+                </div>
+                <input
+                  type="search"
+                  id="default-search"
+                  className="block w-full text-ellipsis rounded-lg border border-gray-300 bg-transparent p-4 pl-10 text-sm text-white shadow-2xl drop-shadow-2xl placeholder:text-white focus:border-blue-500 focus:ring-blue-500 "
+                  placeholder="search city, coordinates, postal code, or anything..."
+                  onChange={(e) => {
+                    e.preventDefault();
+                    const search = e.target.value;
+                    if (search) {
+                      if (search.startsWith('*')) {
+                        setLocation(`&multi=${favorites.toString()}`);
+                      } else {
+                        setLocation(e.target.value);
+                      }
                     } else {
-                      setLocation(e.target.value);
+                      setResetSearch(true);
                     }
-                  } else {
-                    setResetSearch(true);
-                  }
-                }}
-              />
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        </Parallax>
-        <Parallax className="w-full" speed={4}>
-          <div className="mt-2 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
-            <BsInfoCircle className="mr-2 text-[1rem]" />
-            <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
-              tips: type
-              <p
-                className="mx-2 cursor-pointer hover:scale-[1.15]"
-                onClick={() => {
-                  const searchBar = document.getElementById(
-                    'default-search'
-                  ) as HTMLInputElement;
-                  if (searchBar) searchBar.value = '*';
-                  setLocation(`&multi=${favorites.toString()}`);
-                }}
-              >
-                &apos;*&apos;
-              </p>
-              to show your starred cities
+          </Parallax>
+          <Parallax className="w-full" speed={4}>
+            <div className="mt-2 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
+              <BsInfoCircle className="mr-2 text-[1rem]" />
+              <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
+                tips: type
+                <p
+                  className="mx-2 cursor-pointer hover:scale-[1.15]"
+                  onClick={() => {
+                    const searchBar = document.getElementById(
+                      'default-search'
+                    ) as HTMLInputElement;
+                    if (searchBar) searchBar.value = '*';
+                    setLocation(`&multi=${favorites.toString()}`);
+                  }}
+                >
+                  &apos;*&apos;
+                </p>
+                to show your starred cities
+              </div>
             </div>
+          </Parallax>
+          <div className="mt-5 flex flex-wrap items-center justify-center ">
+            {child}
           </div>
-        </Parallax>
-        <div className="mt-5 flex flex-wrap items-center justify-center ">
-          {child}
+          <div ref={searchResultRef}></div>
         </div>
-        <div ref={searchResultRef}></div>
       </div>
     </Main>
   );
