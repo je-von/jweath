@@ -11,7 +11,6 @@ import { Main } from '@/templates/Main';
 
 const Index = () => {
   const [favorites, setFavorites] = useState([]);
-  const [minHeight, setMinHeight] = useState('');
   const [limit, setLimit] = useState(0);
   const searchResultRef = useRef<HTMLDivElement>(null);
   const [location, setLocation] = useState('Indonesia');
@@ -39,6 +38,7 @@ const Index = () => {
     });
 
     observer.observe(searchResultRef.current);
+    // observer.observe()
   }, []);
   useEffect(() => {
     if (favorites.length < 1) {
@@ -58,9 +58,12 @@ const Index = () => {
         />
       }
     >
-      <div className={`px-5 pt-64 pb-12 ${minHeight}`}>
-        <Parallax speed={5}>
-          <div>
+      <div
+        id="search"
+        className={`px-5 pt-64 pb-12 min-h-[120vh] flex flex-col items-center justify-center w-full`}
+      >
+        <Parallax speed={6} className="w-full">
+          <div className="w-full">
             <div className="relative">
               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
                 <AiOutlineSearch />
@@ -83,14 +86,11 @@ const Index = () => {
                     setResetSearch(true);
                   }
                 }}
-                onFocus={() => {
-                  setMinHeight('min-h-[120vh]');
-                }}
               />
             </div>
           </div>
         </Parallax>
-        <Parallax speed={3}>
+        <Parallax className="w-full" speed={4}>
           <div className="mt-2 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
             <BsInfoCircle className="mr-2 text-[1rem]" />
             <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
@@ -114,8 +114,8 @@ const Index = () => {
         <div className="mt-5 flex flex-wrap items-center justify-center ">
           {child}
         </div>
+        <div ref={searchResultRef}></div>
       </div>
-      <div ref={searchResultRef}></div>
     </Main>
   );
   if (isValidating && !weathers) {

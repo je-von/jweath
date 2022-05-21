@@ -58,6 +58,7 @@ const Main = (props: IMainProps) => {
               ticking={true}
               className="text-white drop-shadow-lg "
             />
+            <p>start searching</p>
           </Parallax> */}
         </div>
         <div className="relative z-50 mx-auto max-w-[800px]">
