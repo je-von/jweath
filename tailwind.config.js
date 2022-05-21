@@ -22,8 +22,19 @@ module.exports = {
     extend: {
       animation: {
         blob: 'blob 7s infinite',
+        customDown: 'customDown 500ms ease-in-out',
       },
       keyframes: {
+        customDown: {
+          '0%': {
+            transform: 'translate(0,-4rem)',
+            opacity: '0',
+          },
+          '100%': {
+            transform: 'translate(0)',
+            opacity: '1',
+          },
+        },
         blob: {
           '0%': {
             transform: 'translate(0px, 0px) scale(1)',

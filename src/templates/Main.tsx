@@ -2,7 +2,6 @@ import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import { VscLocation } from 'react-icons/vsc';
-import Clock from 'react-live-clock';
 import { Parallax } from 'react-scroll-parallax';
 import Typical from 'react-typical';
 import useSWR from 'swr';
@@ -44,25 +43,8 @@ const Main = (props: IMainProps) => {
           </Parallax>
           <div className="my-6 w-[80vw] bg-black bg-opacity-70 px-2 text-center sm:w-[34rem]">
             <Typical
-              steps={[
-                'g',
-                300,
-                'get',
-                500,
-                'get updated',
-                500,
-                'get updated weather',
-                500,
-                'get updated weather from',
-                500,
-                'get updated weather from places',
-                500,
-                'get updated weather from places around',
-                500,
-                'get updated weather from places around the world🌏',
-                2000,
-              ]}
-              loop={Infinity}
+              steps={['get updated weather from places around the world🌏']}
+              loop={1}
             />
           </div>
           <Parallax speed={-2}>
@@ -70,13 +52,13 @@ const Main = (props: IMainProps) => {
               {child}
             </div>
           </Parallax>
-          <Parallax speed={-5}>
+          {/* <Parallax speed={-5}>
             <Clock
               format={'HH:mm:ss'}
               ticking={true}
               className="text-white drop-shadow-lg "
             />
-          </Parallax>
+          </Parallax> */}
         </div>
         <div className="relative z-50 mx-auto max-w-screen-md">
           {props.children}

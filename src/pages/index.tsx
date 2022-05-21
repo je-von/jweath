@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
@@ -9,22 +9,35 @@ import { fetcher } from '@/lib/fetcher';
 import { Main } from '@/templates/Main';
 
 const Index = () => {
+  const [limit, setLimit] = useState(0);
+  const searchResultRef = useRef<HTMLDivElement>(null);
   const [location, setLocation] = useState('Indonesia');
-  useEffect(() => {
-    console.log(location);
-    // if (!location)
-    navigator.geolocation.getCurrentPosition((p) => {
-      setLocation(`${p.coords.latitude},${p.coords.longitude}`);
-    });
-  }, []);
+  const [resetSearch, setResetSearch] = useState(true);
   const { data: weathers, isValidating } = useSWR<any>(
     `/api/weather?location=${location}`,
     fetcher
   );
+  useEffect(() => {
+    if (resetSearch) {
+      navigator.geolocation.getCurrentPosition((p) => {
+        setLocation(`${p.coords.latitude},${p.coords.longitude}`);
+      });
+      setResetSearch(false);
+    }
+  }, [resetSearch]);
+  useEffect(() => {
+    if (!searchResultRef.current) return;
 
-  // console.log(location)
-  // console.log(weathers)
-  // console.log(`https://api.weatherapi.com/v1/search.json?key=${process.env.WEATHER_API_KEY}&q=${location}`)
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      if (entry?.isIntersecting) {
+        console.log(limit);
+        setLimit((prev) => prev + 2);
+      }
+    });
+
+    observer.observe(searchResultRef.current);
+  }, []);
 
   const content = (child) => (
     <Main
@@ -35,7 +48,7 @@ const Index = () => {
         />
       }
     >
-      <div className="py-64 px-5 md:min-h-[200vh]">
+      <div className="px-5 pt-64 pb-12">
         <Parallax speed={5}>
           <form>
             <label
@@ -55,25 +68,31 @@ const Index = () => {
                 placeholder="Search city, coordinates, postal code, anything..."
                 onChange={(e) => {
                   e.preventDefault();
-                  setLocation(e.target.value);
+                  const search = e.target.value;
+                  if (search) {
+                    setLocation(e.target.value);
+                  } else {
+                    setResetSearch(true);
+                  }
                 }}
               />
             </div>
           </form>
         </Parallax>
-        <div className="mt-5 flex flex-wrap items-center justify-center">
+        <div className="mt-5 flex flex-wrap items-center justify-center ">
           {child}
         </div>
       </div>
+      <div ref={searchResultRef}></div>
     </Main>
   );
   if (isValidating && !weathers) {
     return content(null);
   }
   return content(
-    weathers?.data?.map((w, index) => (
+    weathers?.data?.slice(0, limit).map((w, index) => (
       <Parallax speed={2} key={index}>
-        <div className=" m-2 h-44 min-h-fit w-[80vw] rounded-lg bg-white bg-opacity-40 px-5 py-2 shadow-lg drop-shadow-xl md:w-[21rem]">
+        <div className="m-2 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-2 shadow-lg drop-shadow-xl md:w-[21rem]">
           <div className="flex h-full w-full flex-col items-center justify-center text-black">
             <div className="flex w-full items-center justify-between">
               <div className="w-3/4">
@@ -82,7 +101,6 @@ const Index = () => {
               </div>
               <Parallax speed={-2}>
                 <Image
-                  className="hover:scale-125 "
                   src={`/assets/weather/${w.icon}`}
                   width={50}
                   height={50}
