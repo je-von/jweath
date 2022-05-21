@@ -62,13 +62,16 @@ const Header = () => {
   return content(
     weather && weather.data ? (
       <div className="flex items-center justify-around">
-        <Image
-          className="hover:scale-125"
-          src={`/assets/weather/${weather?.data?.icon}`}
-          width={55}
-          height={55}
-          alt={'weather icon'}
-        />
+        <Parallax speed={-0.5} rotate={[0, 12]} easing="easeInQuad">
+          <Image
+            className="hover:scale-125"
+            src={`/assets/weather/${weather?.data?.icon}`}
+            width={55}
+            height={55}
+            alt={'weather icon'}
+          />
+        </Parallax>
+
         <div className="ml-2 flex w-3/4 flex-col text-white">
           <p className="text-white">Look outside! </p>
           <p className="whitespace-normal text-white sm:whitespace-nowrap">

@@ -56,7 +56,7 @@ const Index = () => {
           id="search"
           className={`px-5 pt-64 pb-12 min-h-[100vh] flex flex-col items-center justify-center w-full`}
         >
-          <Parallax speed={5} className="w-full">
+          <Parallax speed={5} scale={[0.7, 1]} className="w-full">
             <div className="w-full">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
@@ -118,7 +118,12 @@ const Index = () => {
   }
   return content(
     weathers?.data?.slice(0, limit).map((w, index) => (
-      <Parallax speed={2} key={index}>
+      <Parallax
+        speed={2}
+        scale={[0.85, 1]}
+        // translateX={index % 2 === 0 ? ['-100px', '0px'] : ['100px', '0px']}
+        key={index}
+      >
         <div className="relative cursor-pointer transition-all duration-150 hover:scale-105">
           <Link href={`/weather/${w.url}`} passHref>
             <div className="hover:shadow-off relative my-2 mx-4 h-44 min-h-fit w-[80vw] animate-customDown rounded-lg bg-white bg-opacity-40 px-5 py-3 shadow-lg drop-shadow-xl hover:ring-2 hover:ring-yellow-400 md:w-[21rem]">
