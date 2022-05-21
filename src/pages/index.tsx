@@ -29,7 +29,7 @@ const Index = () => {
     <Main
       meta={
         <Meta
-          title="jweath | Weather App"
+          title="jweath | Weather App by Jevon"
           description="A web application to get updated weather from all places in the world."
         />
       }
@@ -63,18 +63,18 @@ const Index = () => {
               <div className=" m-2 h-44 min-h-fit w-[80vw] rounded-lg bg-white bg-opacity-50 px-5 py-2 shadow-lg drop-shadow-xl md:w-[21rem]">
                 <div className="flex h-full w-full flex-col items-center justify-center text-black">
                   <div className="flex w-full items-center justify-between">
-                    <div>
+                    <div className="w-3/4">
                       <h2 className="text-black">
                         {w.name}, {w.region}
                       </h2>
                       <p className="my-1 text-gray-700">{w.country}</p>
                     </div>
-                    <Parallax speed={-1}>
+                    <Parallax speed={-2}>
                       <Image
                         className="hover:scale-125 "
                         src={`/assets/weather/${w.icon}`}
-                        width={40}
-                        height={40}
+                        width={50}
+                        height={50}
                         alt={'weather icon'}
                       />
                     </Parallax>

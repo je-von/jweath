@@ -37,7 +37,7 @@ const Main = (props: IMainProps) => {
       {props.meta}
       <div className="relative h-screen w-full">
         <div
-          className="fixed inset-0 scale-105 bg-cover bg-bottom bg-no-repeat blur-md"
+          className="fixed inset-0 scale-105 bg-cover bg-bottom bg-no-repeat blur-md brightness-[.85]"
           style={{ backgroundImage: 'url(/assets/images/background.svg)' }}
         ></div>
         <div className="container relative mx-auto flex h-full max-w-screen-md flex-col items-center justify-center px-5">
@@ -49,8 +49,20 @@ const Main = (props: IMainProps) => {
           <div className="my-6 w-[80vw] bg-black bg-opacity-70 px-2 text-center sm:w-[34rem]">
             <Typical
               steps={[
-                'get updated weather realtime⏳',
-                3000,
+                'g',
+                300,
+                'get',
+                500,
+                'get updated',
+                500,
+                'get updated weather',
+                500,
+                'get updated weather from',
+                500,
+                'get updated weather from places',
+                500,
+                'get updated weather from places around',
+                500,
                 'get updated weather from places around the world🌏',
                 2000,
               ]}
@@ -69,11 +81,13 @@ const Main = (props: IMainProps) => {
                     height={55}
                     alt={'weather icon'}
                   />
-                  <div className="flex flex-col text-white">
+                  <div className="ml-2 flex w-3/4 flex-col text-white">
                     <p className="text-white">Look outside! </p>
-                    <p className="text-white">
-                      It&apos;s <i>{weather?.data?.condition}</i> and{' '}
-                      {weather?.data?.temperature}&#176;C
+                    <p className="whitespace-normal text-white sm:whitespace-nowrap">
+                      It&apos;s {weather?.data?.temperature}&#176;C and{' '}
+                      <i className="whitespace-pre-wrap">
+                        {weather?.data?.condition}
+                      </i>
                     </p>
                   </div>
                 </div>
