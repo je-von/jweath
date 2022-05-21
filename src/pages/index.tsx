@@ -5,6 +5,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
+import { Footer } from '@/layouts/Footer';
 import { Header } from '@/layouts/Header';
 import { Meta } from '@/layouts/Meta';
 import { fetcher } from '@/lib/fetcher';
@@ -119,6 +120,8 @@ const Index = () => {
           <div ref={searchResultRef}></div>
         </div>
       </div>
+
+      <Footer />
     </Main>
   );
   if (isValidating && !weathers) {
