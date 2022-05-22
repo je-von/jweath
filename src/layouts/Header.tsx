@@ -23,7 +23,7 @@ const Header = () => {
   );
   const content = (child) => (
     <div className="container relative mx-auto flex h-full max-w-screen-md flex-col items-center justify-center px-5">
-      <Parallax speed={10}>
+      <Parallax speed={11}>
         <h1 className="font-ubuntu text-6xl font-bold text-white drop-shadow-lg">
           jweath
         </h1>
@@ -34,7 +34,7 @@ const Header = () => {
           loop={1}
         />
       </div>
-      <Parallax speed={-2}>
+      <Parallax speed={-2} scale={[1, 0.8]} translateY={[-10, 20]}>
         <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem]">
           {child}
         </div>
@@ -62,7 +62,7 @@ const Header = () => {
   return content(
     weather && weather.data ? (
       <div className="flex items-center justify-around">
-        <Parallax speed={-0.5} rotate={[0, 12]} easing="easeInQuad">
+        <Parallax speed={-0.5} rotateY={[360, 0]}>
           <Image
             className="hover:scale-125"
             src={`/assets/weather/${weather?.data?.icon}`}
@@ -76,7 +76,9 @@ const Header = () => {
           <p className="text-white">Look outside! </p>
           <p className="whitespace-normal text-white sm:whitespace-nowrap">
             It&apos;s {weather?.data?.temperature}&#176;C and{' '}
-            <i className="whitespace-pre-wrap">{weather?.data?.condition}</i>
+            <i className="whitespace-pre-wrap break-words">
+              {weather?.data?.condition}
+            </i>
           </p>
         </div>
       </div>

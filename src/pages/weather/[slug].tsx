@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiOutlineClockCircle } from 'react-icons/ai';
 import { FaAngleLeft } from 'react-icons/fa';
-import { Circles } from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -20,10 +20,19 @@ const WeatherDetail = () => {
 
   const content = (child) => (
     <div className="relative z-50">
-      <div className="mx-auto flex w-full max-w-[800px] items-center justify-between">
-        <Link href={'/#search'} passHref>
-          <FaAngleLeft className="ml-4 mt-16 cursor-pointer text-2xl text-white drop-shadow-xl" />
-        </Link>
+      <div className="mx-auto flex w-full max-w-[800px] items-center justify-center">
+        <div className="mx-4 mt-16  flex w-full items-center justify-between">
+          <Link href={'/#search'} passHref>
+            <FaAngleLeft className="cursor-pointer text-2xl text-white drop-shadow-xl" />
+          </Link>
+          <p className="text-base text-gray-400 drop-shadow-lg">
+            {new Date().toLocaleDateString('en-us', {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+            })}
+          </p>
+        </div>
       </div>
       {child}
     </div>
@@ -32,7 +41,7 @@ const WeatherDetail = () => {
   if (isValidating && !weather)
     return content(
       <div className="mt-10 flex h-[80vh] w-full items-center justify-center">
-        <Circles color="#f6ca00" height={100} width={110} />
+        <BallTriangle color="#f6ca00" />
       </div>
     );
 
@@ -41,15 +50,20 @@ const WeatherDetail = () => {
       <div className="mx-auto my-10 flex w-full  max-w-[800px] flex-col items-center justify-between px-5">
         <div className="flex w-full items-center justify-between ">
           <div className="w-3/4">
-            <Parallax speed={2} className="w-full">
-              <h1 className="text-white">{weather?.data?.name}</h1>
+            <Parallax speed={3} className="w-full">
+              <h1 className="text-white drop-shadow-lg">
+                {weather?.data?.name}
+              </h1>
             </Parallax>
             <Parallax speed={-1}>
-              <p className="text-lg text-gray-400">{weather?.data?.country}</p>
+              <p className="text-lg text-gray-400 drop-shadow-lg">
+                {weather?.data?.country}
+              </p>
             </Parallax>
           </div>
-          <Parallax speed={1}>
+          <Parallax speed={2}>
             <Image
+              className="drop-shadow-lg"
               src={`/assets/weather/${weather?.data?.icon}`}
               width={80}
               height={80}
@@ -58,21 +72,23 @@ const WeatherDetail = () => {
           </Parallax>
         </div>
         <Parallax speed={-3} className="w-full text-center">
-          <p className="text-lg text-gray-400">
-            {new Date(weather?.data?.date).toLocaleDateString('en-us', {
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric',
-            })}
-          </p>
-          <p className="w-full text-center text-lg leading-5 text-white">
+          <div className="w-full text-left text-lg leading-6 text-white drop-shadow-lg">
             It&apos;s <i>{weather?.data?.condition}</i> and feels like{' '}
-            <b>{weather?.data?.feelslike}&#176;C</b>. It&apos;s actually{' '}
-            <b>{weather?.data?.temperature}&#176;C</b> right now. Today&apos;s
-            average temperature will be around{' '}
-            <b>{weather?.data?.avgtemp_c}&#176;C</b> with{' '}
-            <i>{weather?.data?.chance_of_rain}%</i> chance of rain.
-          </p>
+            <b>{weather?.data?.feelslike}&#176;C</b>.
+            <p>
+              It&apos;s actually <b>{weather?.data?.temperature}&#176;C</b>{' '}
+              right now.
+            </p>
+            <p>
+              Today&apos;s average temperature will be around{' '}
+              <b>{weather?.data?.avgtemp_c}&#176;C</b> with{' '}
+              <i>{weather?.data?.chance_of_rain}%</i> chance of rain.
+              <p>
+                Today&apos; wind will be {weather?.data?.wind.kph}km/h{' '}
+                {weather?.data?.wind.degree}&#176; {weather?.data?.wind.dir}
+              </p>
+            </p>
+          </div>
         </Parallax>
       </div>
 

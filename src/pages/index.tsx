@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useEffect, useRef, useState } from 'react';
 import { AiFillStar, AiOutlineSearch, AiOutlineStar } from 'react-icons/ai';
 import { BsInfoCircle } from 'react-icons/bs';
-import { Circles } from 'react-loader-spinner';
+import { BallTriangle } from 'react-loader-spinner';
 import { Parallax } from 'react-scroll-parallax';
 import useSWR from 'swr';
 
@@ -57,7 +57,12 @@ const Index = () => {
           id="search"
           className={`px-5 pt-64 pb-12 min-h-[100vh] flex flex-col items-center justify-center w-full`}
         >
-          <Parallax speed={5} scale={[0.7, 1]} className="w-full">
+          <Parallax
+            speed={5}
+            scale={[0.7, 1]}
+            translateY={[10, -10]}
+            className="w-full"
+          >
             <div className="w-full">
               <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-300">
@@ -86,7 +91,7 @@ const Index = () => {
             </div>
           </Parallax>
           <Parallax className="w-full" speed={3}>
-            <div className="mt-3 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
+            <div className="my-5 flex items-center justify-center text-center text-xs text-gray-300 drop-shadow-lg ">
               <BsInfoCircle className="mr-2 text-[1rem]" />
               <div className="flex max-w-[60%] flex-wrap items-center whitespace-nowrap leading-4">
                 tips: type
@@ -109,7 +114,7 @@ const Index = () => {
           <div className="mt-5 flex flex-wrap items-center justify-center ">
             {child}
           </div>
-          <div ref={searchResultRef} className="h-[20vh]"></div>
+          <div ref={searchResultRef} className="h-[25vh]"></div>
         </div>
       </div>
     </>
@@ -122,7 +127,7 @@ const Index = () => {
           speed={3}
           scale={[0.7, 1]}
         >
-          <Circles color="#f6ca00" height={100} width={110} />
+          <BallTriangle color="#f6ca00" />
         </Parallax>
       </div>
     );
@@ -131,8 +136,9 @@ const Index = () => {
     weathers?.data?.slice(0, limit).map((w, index) => (
       <Parallax
         speed={2}
-        scale={[0.85, 1]}
-        // translateX={index % 2 === 0 ? ['-100px', '0px'] : ['100px', '0px']}
+        // scale={[0.85, 1, 'easeInCirc']}
+        opacity={[0.3, 1.5]}
+        // translateY={[-15, 0]}
         key={index}
       >
         <div className="relative cursor-pointer transition-all duration-150 hover:scale-105">
@@ -144,12 +150,14 @@ const Index = () => {
                     <h2 className="text-black">{w.name}</h2>
                     <p className="my-1 text-gray-700">{w.country}</p>
                   </div>
-                  <Image
-                    src={`/assets/weather/${w.icon}`}
-                    width={50}
-                    height={50}
-                    alt={'weather icon'}
-                  />
+                  <Parallax speed={-0.5} rotateY={[0, 360]}>
+                    <Image
+                      src={`/assets/weather/${w.icon}`}
+                      width={50}
+                      height={50}
+                      alt={'weather icon'}
+                    />
+                  </Parallax>
                 </div>
                 <p className="text-justify leading-5 text-black">
                   It&apos;s <i>{w.condition}</i> and feels like{' '}
