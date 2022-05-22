@@ -53,7 +53,7 @@ const Header = () => {
       </Parallax>
 
       <Parallax speed={-2} scale={[1, 0.8]} translateY={[-10, 20]}>
-        <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[18rem]">
+        <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[20rem]">
           {child}
         </div>
       </Parallax>
