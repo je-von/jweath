@@ -34,7 +34,6 @@ const Index = () => {
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry?.isIntersecting) {
-        console.log('masuk');
         setLimit((prev) => prev + 2);
       }
     });
