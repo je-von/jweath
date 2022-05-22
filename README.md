@@ -14,3 +14,8 @@
 📱Preview (Mobile):
 
 <img src="https://github.com/je-von/jweath/raw/master/public/assets/gif/mobile-sm.gif"/>
+
+👁️Preview (Mockup):
+
+![jweath](https://user-images.githubusercontent.com/86874779/169686044-584120e0-1242-41a8-bfbb-7ddcf5645c1a.jpg)
+
