@@ -34,6 +34,7 @@ const Index = () => {
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
       if (entry?.isIntersecting) {
+        console.log('masuk');
         setLimit((prev) => prev + 2);
       }
     });
@@ -55,7 +56,7 @@ const Index = () => {
       <div className="relative z-50 mx-auto max-w-[800px]">
         <div
           id="search"
-          className={`px-5 pt-64 pb-12 min-h-[100vh] flex flex-col items-center justify-center w-full`}
+          className={`px-5 pt-64 min-h-[100vh] flex flex-col items-center justify-center w-full`}
         >
           <Parallax
             speed={5}
@@ -114,7 +115,7 @@ const Index = () => {
           <div className="mt-5 flex flex-wrap items-center justify-center ">
             {child}
           </div>
-          <div ref={searchResultRef} className="h-[25vh]"></div>
+          <div ref={searchResultRef} className="mt-52 h-2 w-2"></div>
         </div>
       </div>
     </>
