@@ -53,12 +53,12 @@ const Header = () => {
         </div>
       </Parallax>
 
-      <Parallax speed={-7} scale={[1, 0.7]} translateY={[-10, 20]}>
+      <Parallax speed={-3} scale={[1, 0.7]} translateY={[-10, 20]}>
         <div className="mb-7 w-[80vw] rounded-lg border px-5 py-2 shadow-2xl drop-shadow-2xl sm:w-[20rem]">
           {child}
         </div>
       </Parallax>
-      <Parallax speed={-9}>
+      <Parallax speed={-9} className="mt-6">
         <Clock
           format={'HH:mm:ss'}
           ticking={true}
