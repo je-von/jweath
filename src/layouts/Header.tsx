@@ -39,20 +39,15 @@ const Header = () => {
     `/api/weather?location=${location}&top=true`,
     fetcher
   );
-  const title = 'jweath'.split('');
   const content = (child) => (
     <div className="container relative mx-auto flex h-full max-w-screen-md flex-col items-center justify-center px-5">
       <Parallax speed={10}>
-        <h1 className="flex font-ubuntu text-6xl font-bold text-white drop-shadow-lg">
-          {title.map((letter, i) => (
-            <Parallax key={i} translateX={[0, 60 * (i - 2.5)]}>
-              {letter}
-            </Parallax>
-          ))}
+        <h1 className="font-ubuntu text-6xl font-bold text-white drop-shadow-lg">
+          jweath
         </h1>
       </Parallax>
 
-      <Parallax speed={-5}>
+      <Parallax speed={-3}>
         <div className="mt-7 mb-5 w-[80vw] bg-black bg-opacity-70 px-2 text-center sm:w-[34rem]">
           <TypingAnimation />
         </div>
