@@ -84,8 +84,8 @@ const WeatherDetail = () => {
               <b>{weather?.data?.avgtemp_c}&#176;C</b> with{' '}
               <i>{weather?.data?.chance_of_rain}%</i> chance of rain.
               <p>
-                Today&apos; wind will be {weather?.data?.wind.kph}km/h{' '}
-                {weather?.data?.wind.degree}&#176; {weather?.data?.wind.dir}
+                Today&apos;s wind will be {weather?.data?.wind.kph}km/h{' '}
+                {weather?.data?.wind.degree}&#176; {weather?.data?.wind.dir}.
               </p>
             </p>
           </div>
