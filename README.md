@@ -19,4 +19,6 @@
 
 ![jweath](https://user-images.githubusercontent.com/86874779/169686044-584120e0-1242-41a8-bfbb-7ddcf5645c1a.jpg)
 
-🖼️ Background image source: https://flevix.com/free-animation-live-backgrounds/
+🖼️ Image sources: 
+- Background: https://flevix.com/free-animation-live-backgrounds/
+- Mockup: https://www.freepik.com/free-psd/digital-devices-screen-editable_16303836.htm
